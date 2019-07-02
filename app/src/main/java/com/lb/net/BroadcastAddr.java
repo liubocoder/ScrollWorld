@@ -15,37 +15,37 @@ public class BroadcastAddr {
 
     public static String getBroadcastAddr() {
         BroadcastAddr info = new BroadcastAddr();
-        getLocalIPList(info);
-        info.execCalc();
-        return info.getNetbroadcastaddr();
+        boolean ret = getLocalIPList(info);
+
+        if (ret) {
+            info.execCalc();
+            return info.getNetbroadcastaddr();
+        }
+
+        return null;
     }
 
-
-    public static void getLocalIPList(BroadcastAddr addr) {
+    private static boolean getLocalIPList(BroadcastAddr addr) {
         try {
             Enumeration<NetworkInterface> networkInterfaces = NetworkInterface.getNetworkInterfaces();
             NetworkInterface networkInterface;
             Enumeration<InetAddress> inetAddresses;
             InetAddress inetAddress;
             String ip;
+
             while (networkInterfaces.hasMoreElements()) {
                 networkInterface = networkInterfaces.nextElement();
                 inetAddresses = networkInterface.getInetAddresses();
                 while (inetAddresses.hasMoreElements()) {
                     inetAddress = inetAddresses.nextElement();
                     ip = inetAddress.getHostAddress();
-                    if (inetAddress != null && inetAddress instanceof Inet4Address && !"127.0.0.1".equals(ip)) { // IPV4
+                    if (inetAddress instanceof Inet4Address && !"127.0.0.1".equals(ip)) {
                         final NetworkInterface ni = NetworkInterface.getByInetAddress(inetAddress);
-
-
-                        List<InterfaceAddress> list = ni.getInterfaceAddresses();// 获取此网络接口的全部或部分
-                        // InterfaceAddresses
-                        // 所组成的列表
+                        List<InterfaceAddress> list = ni.getInterfaceAddresses();
                         if (list != null && list.size() > 0) {
-
                             for (InterfaceAddress address : list) {
                                 if (address.getAddress() instanceof Inet4Address) {
-                                    int mask = address.getNetworkPrefixLength(); // 子网掩码的二进制1的个数
+                                    int mask = address.getNetworkPrefixLength();
                                     StringBuilder maskStr = new StringBuilder();
                                     int[] maskIp = new int[4];
                                     for (int i = 0; i < maskIp.length; i++) {
@@ -58,7 +58,7 @@ public class BroadcastAddr {
                                     }
                                     addr.setNetaddr(ip);
                                     addr.setNetmask(maskStr.toString());
-                                    break;
+                                    return true;
                                 }
                             }
                         }
@@ -69,6 +69,7 @@ public class BroadcastAddr {
         } catch (SocketException e) {
             e.printStackTrace();
         }
+        return false;
     }
 
     public String getNetaddr() {

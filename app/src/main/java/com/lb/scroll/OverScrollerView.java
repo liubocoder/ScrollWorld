@@ -48,30 +48,26 @@ public class OverScrollerView extends View {
     private int mOnePageDuration = SF_DURATION;
     private int mDuration;
 
-    //private DERICTION mDeriction = DERICTION.CENTER;
-    private int mCounter = 0;
+    private int mVerticalSize = 1;
+    private int mHorizontalSize = 1;
+    private int mScLeft = 0;
+    private int mScTop = 0;
 
     private void initLayout() {
-        int width = getMeasuredWidth();
-        int height = getMeasuredHeight();
+        int width = getTotalWidth();
+        int height = getTotalHeight();
 
         if (width == 0 || height == 0 || mPaint != null) {
             return;
         }
 
-        if (mCounter > 2) {
-            return;
-        }
-
-        int totalHeight = (mCounter + 1 ) * height;
-
         mPaint = new Paint();
         mPaint.setAntiAlias(true);
-        mPaint.setTextSize(totalHeight);
+        mPaint.setTextSize(height);
         mPaint.setColor(Color.RED);
 
         Paint.FontMetrics fm = mPaint.getFontMetrics();
-        mBaseLineY = Math.abs(fm.ascent + fm.descent) / 2 + totalHeight;
+        mBaseLineY = Math.abs(fm.ascent + fm.descent) / 2 + height / 2;
 
         mTxtDrawingLen = mPaint.measureText(mDrawingText) + width;
         mDuration = (int) (mTxtDrawingLen / width * mOnePageDuration);
@@ -79,12 +75,34 @@ public class OverScrollerView extends View {
         startScroll();
     }
 
-    public void setDrawingText(String text) {
-        mDrawingText = text;
+    public void setDerictSize(int horizontal, int vertical) {
+        if (vertical >= 1) {
+            mVerticalSize = vertical;
+        }
+        if (horizontal >= 1) {
+            mHorizontalSize = horizontal;
+        }
     }
 
-    public void setCount(int count) {
-        mCounter = count;
+    public void setSc(int left, int top) {
+        if (left >= 0 && left < mHorizontalSize) {
+            mScLeft = left;
+        }
+        if (top >= 0 && top < mVerticalSize) {
+            mScTop = top;
+        }
+    }
+
+    private int getTotalWidth() {
+        return getMeasuredWidth() * mHorizontalSize;
+    }
+
+    private int getTotalHeight() {
+        return getMeasuredHeight() * mVerticalSize;
+    }
+
+    public void setDrawingText(String text) {
+        mDrawingText = text;
     }
 
 
@@ -120,13 +138,14 @@ public class OverScrollerView extends View {
             return;
         }
         canvas.save();
+        canvas.translate(-getMeasuredWidth() * mScLeft, -getMeasuredHeight() * mScTop);
         drawText(canvas);
         canvas.restore();
     }
 
     private void drawText(Canvas canvas) {
         mPaint.setTextAlign(Paint.Align.LEFT);
-        canvas.drawText(mDrawingText, getMeasuredWidth() - mTxtDrawingLen * mFac, mBaseLineY, mPaint);
+        canvas.drawText(mDrawingText, getTotalWidth() - mTxtDrawingLen * mFac, mBaseLineY, mPaint);
     }
 
 
