@@ -11,19 +11,31 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:visibility="visible"
-        app:layout_constraintBottom_toTopOf="@id/osv2"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.lb.scroll.OverScrollerView
-        android:id="@+id/osv2"
+    <Button
+        android:id="@+id/btn1"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:visibility="visible"
+        android:layout_height="48dp"
+        android:background="#80808080"
+        android:text="服务器"
+        app:layout_constraintBottom_toTopOf="@id/btn2"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btn2"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:background="#80808080"
+        android:text="客户端"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/osv1" />
+        app:layout_constraintTop_toBottomOf="@id/btn1" />
 
 </android.support.constraint.ConstraintLayout>

@@ -4,6 +4,7 @@
     package="com.lb.scroll">
 
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE"/>
 
     <application
         android:allowBackup="true"
@@ -22,6 +23,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+
+        <activity android:name="com.lb.ui.ServerActivity"/>
+        <activity android:name=".ConfigActivity"/>
     </application>
 
 </manifest>

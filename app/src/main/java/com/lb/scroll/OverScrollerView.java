@@ -71,8 +71,6 @@ public class OverScrollerView extends View {
 
         mTxtDrawingLen = mPaint.measureText(mDrawingText) + width;
         mDuration = (int) (mTxtDrawingLen / width * mOnePageDuration);
-
-        startScroll();
     }
 
     public void setDerictSize(int horizontal, int vertical) {
@@ -107,6 +105,7 @@ public class OverScrollerView extends View {
 
 
     public void startScroll() {
+        mPaint = null;
         stopScroll();
 
         mAnimtor = ValueAnimator.ofFloat(0, 1);

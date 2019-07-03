@@ -2,21 +2,33 @@ package com.lb.scroll;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 
-public class ConfigActivity extends AppCompatActivity {
+import com.lb.ui.BaseActivity;
+import com.lb.ui.ServerActivity;
+
+public class ConfigActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_config);
 
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        Button btn1 = findViewById(R.id.btn1);
+        btn1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-       final OverScrollerView osv1 = findViewById(R.id.osv1);
-        osv1.setDerictSize(1, 2);
-        osv1.setSc(0, 0);
-        final OverScrollerView osv2 = findViewById(R.id.osv2);
-        osv2.setDerictSize(1, 2);
-        osv2.setSc(0, 1);
+            }
+        });
+
+        Button btn2 = findViewById(R.id.btn1);
+        btn2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 }
